@@ -23,3 +23,30 @@ function mimicServerCall(url="http://mimicServer.example.com", config={}) {
     }, 300);
   });
 }
+
+
+
+const liker = document.querySelector(".like-glyph")
+
+liker.addEventListener("click", function(e){
+  mimicServerCall()
+  .then(function(response){
+    console.log(response)
+    console.log(e.target.innerText);
+    if(e.target.innerText === EMPTY_HEART){
+      e.target.innerText = FULL_HEART
+      e.target.classList.add("activated-heart")
+    } else {
+      e.target.innerText = EMPTY_HEART
+      e.target.classList.remove("activated-heart")
+    }
+  })
+  .catch(function(error){
+    const modal = document.querySelector("#modal")
+    modal.classList.remove("hidden")
+    modal.innerText = error
+    setTimeout(function(){
+      modal.classList.add("hidden")
+    }, 5000)
+  })
+});
